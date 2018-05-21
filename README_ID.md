@@ -1,20 +1,20 @@
-# Iris Web Framework <a href="README.md"> <img width="20px" src="https://iris-go.com/images/flag-unitedkingdom.svg?v=10" /></a> <a href="README_RU.md"><img width="20px" src="https://iris-go.com/images/flag-russia.svg?v=10" /></a> <a href="README_ID.md"> <img width="20px" src="https://iris-go.com/images/flag-indonesia.svg?v=10" /></a> <a href="README_GR.md"><img width="20px" src="https://iris-go.com/images/flag-greece.svg?v=10" /></a>
+# Iris Web Framework <a href="README.md"> <img width="20px" src="https://iris-go.com/images/flag-unitedkingdom.svg?v=10" /> </a> <a href="README_ZH.md"> <img width="20px" src="https://iris-go.com/images/flag-china.svg?v=10" /> </a> <a href="README_RU.md"><img width="20px" src="https://iris-go.com/images/flag-russia.svg?v=10" /></a> <a href="README_GR.md"><img width="20px" src="https://iris-go.com/images/flag-greece.svg?v=10" /></a>
 
 <a href="https://iris-go.com"> <img align="right" width="169px" src="https://iris-go.com/images/icon.svg?v=a" title="logo created by @merry.dii" /> </a>
 
 [![build status](https://img.shields.io/travis/kataras/iris/master.svg?style=flat-square)](https://travis-ci.org/kataras/iris)<!-- [![release](https://img.shields.io/github/release/kataras/iris.svg?style=flat-square)](https://github.com/kataras/iris/releases)--> [![report card](https://img.shields.io/badge/report%20card-a%2B-ff3333.svg?style=flat-square)](http://goreportcard.com/report/kataras/iris) [![vscode-iris](https://img.shields.io/badge/ext%20-vscode-0c77e3.svg?style=flat-square)](https://marketplace.visualstudio.com/items?itemName=kataras2006.iris)<!--[![github closed issues](https://img.shields.io/github/issues-closed-raw/kataras/iris.svg?style=flat-square)](https://github.com/kataras/iris/issues?q=is%3Aissue+is%3Aclosed)--> [![chat](https://img.shields.io/badge/community-%20chat-00BCD4.svg?style=flat-square)](https://kataras.rocket.chat/channel/iris) [![view examples](https://img.shields.io/badge/learn%20by-examples-0077b3.svg?style=flat-square)](https://iris-go.com/v10/recipe) [![release](https://img.shields.io/badge/release%20-v10.6-0077b3.svg?style=flat-square)](https://github.com/kataras/iris/releases)
 
-Iris 是一款超快、简洁高效的 Go 语言 Web开发框架。
+Iris adalah web framework yang cepat, sederhana namun berfitur lengkap dan sangat efisien untuk Go.
 
-Iris 功能强大、使用简单，它将会是你下一个网站、API 服务或者分布式应用基础框架的不二之选。
+Iris menyediakan fondasi yang indah expresif dan mudah digunakan untuk website atau API anda selanjutnya.
 
-总之，是一款与 express.js 旗鼓相当的 Go 语言框架。
+Akhirnya, framework nyata yang setara dengan expressjs untuk Go Programming Language.
 
-看看[别人是如何评价 Iris](#support)，同时欢迎各位点亮 Iris [Star](https://github.com/kataras/iris/stargazers)，或者关注 [Iris facebook 主页](https://facebook.com/iris.framework)。
+Pelajari apa yang [orang lain katakan tentang Iris](#support) dan [star](https://github.com/kataras/iris/stargazers) github repository ini untuk [mendapatkan informasi terbaru](https://facebook.com/iris.framework).
 
-## 支持者
+## Donatur
 
-感谢所有的支持者! 🙏 [支持我们](https://iris-go.com/donate)
+Terima kasih kepada seluruh donatur kami! 🙏 [Menjadi donatur](https://iris-go.com/donate)
 
 <a href="https://iris-go.com/donate" target="_blank"><img src="https://iris-go.com/backers.svg?v=2"/></a>
 
@@ -29,36 +29,40 @@ import "github.com/kataras/iris"
 
 func main() {
     app := iris.New()
-    // 从 "./views" 目录加载HTML模板
-    // 模板解析 html 后缀文件
-    // 此方式使用 `html/template` 标准包 (Iris 的模板引擎)
+    // Memuat semua template dari folder "./views"
+    // yang memiliki ekstensi ".html" dan menguraikannya
+    // menggunakan package standard `html/template`.
     app.RegisterView(iris.HTML("./views", ".html"))
 
-    // 方法：GET
-    // 路径：http://localhost:8080
+    // Method:    GET
+    // Resource:  http://localhost:8080
     app.Get("/", func(ctx iris.Context) {
-        // {{.message}} 和 "Hello world!" 字符串变量绑定
+        // Bind: {{.message}} with "Hello world!"
         ctx.ViewData("message", "Hello world!")
-        // 映射 HTML 模板文件路径 ./views/hello.html
+        // Render template file: ./views/hello.html
         ctx.View("hello.html")
     })
 
-    //方法：GET
-    //路径：http://localhost:8080/user/42
+    // Method:    GET
+    // Resource:  http://localhost:8080/user/42
     //
-    // 使用正则表达式必须设置参数类型为 string
-    // app.Get("/user/{id:string regexp(^[0-9]+$)}")
+    // Butuh menggunakan custom regexp sebagai gantinya?
+    // Mudah,
+    // cukup tandai tipe parameter menjadi 'string'
+    // yang akan menerima semua dan akan menggunakan
+    // fungsi macro `regexp`, Contoh:
+    // app.Get("/user/{id:string regexp(^[0-9]+$)}")
     app.Get("/user/{id:long}", func(ctx iris.Context) {
         userID, _ := ctx.Params().GetInt64("id")
         ctx.Writef("User ID: %d", userID)
     })
 
-    // 绑定端口并启动服务.
+    // Menyalakan server menggunakan network address.
     app.Run(iris.Addr(":8080"))
 }
 ```
 
-> 想要了解更多关于路径参数配置，戳[这里](_examples/routing/dynamic-path/main.go#L31)。
+> Pelajari lebih lanjut tentang tipe parameter di path dengan klik [disini](_examples/routing/dynamic-path/main.go#L31)
 
 ```html
 <!-- file: ./views/hello.html -->
@@ -79,34 +83,34 @@ Application Started. Press CTRL+C to shut down.
 _
 ```
 
-## 安装
+## Instalasi
 
-请确保安装 [Go Programming Language](https://golang.org/dl/)
+Satu - satunya persyaratan adalah [Go Programming Language](https://golang.org/dl/)
 
 ```sh
 $ go get -u github.com/kataras/iris
 ```
 
-Iris 使用 [vendor](https://docs.google.com/document/d/1Bz5-UB7g2uPBdOx-rw5t9MxJwkfpx90cqG9AFL0JAYo) 包依赖管理方式。vendor 包管理的方式可以有效处理包依赖更新问题
+Iris mengambil keuntungan dari fitur [vendor directory](https://docs.google.com/document/d/1Bz5-UB7g2uPBdOx-rw5t9MxJwkfpx90cqG9AFL0JAYo). Anda mendapatkan build yang benar - benar dapat direproduksi, karena metode ini menjaga terhadap penggantian nama dan penghapusan di upstream.
 
 [![Iris vs .NET Core(C#) vs Node.js (Express)](https://iris-go.com/images/benchmark-new-gray.png)](_benchmarks/README_UNIX.md)
 
-_更新于: [2017年11月21日星期二](_benchmarks/README_UNIX.md)_
+_Diperbarui pada: [Tuesday, 21 November 2017](_benchmarks/README_UNIX.md)_
 
 <details>
-<summary>来自第三方的其他网络框架的基准测试</summary>
+<summary>Benchmarks dari sumber pihak ketiga terhadap rest web frameworks</summary>
 
-![Comparison with other frameworks](https://raw.githubusercontent.com/smallnest/go-web-framework-benchmark/4db507a22c964c9bc9774c5b31afdc199a0fe8b7/benchmark.png)
+![Perbandingan dengan framework lain](https://raw.githubusercontent.com/smallnest/go-web-framework-benchmark/4db507a22c964c9bc9774c5b31afdc199a0fe8b7/benchmark.png)
 
 </details>
 
-## 支持
+## Dukungan
 
-- [更新记录](HISTORY_ZH.md#mo-21-may-2018--v1065) 是您最好的朋友，它包含有关最新功能和更改的信息
-- 你碰巧找到了一个错误？ 请提交 [github issues](https://github.com/kataras/iris/issues)
-- 您是否有任何疑问或需要与有经验的人士交谈以实时解决问题？ [加入我们的聊天](https://chat.iris-go.com)
-- [点击这里完成我们基于表单的用户体验报告](https://docs.google.com/forms/d/e/1FAIpQLSdCxZXPANg_xHWil4kVAdhmh7EBBHQZ_4_xSZVDL-oCC_z5pA/viewform?usp=sf_link) 
-- 你喜欢这个框架吗？ Twitter 上关于 Iris 的评价:
+- File [HISTORY](HISTORY_ID.md#mo-21-may-2018--v1065) adalah sahabat anda, file tersebut memiliki informasi terkait fitur dan perubahan terbaru
+- Apakah anda menemukan bug? Laporkan itu melalui [github issues](https://github.com/kataras/iris/issues)
+- Apakah anda memiliki pertanyaan atau butuh untuk bicara kepada seseorang yang sudah berpengalaman untuk menyelesaikan masalah secara langsung? Gabung bersama kami di [community chat](https://chat.iris-go.com)
+- Lengkapi laporan user-experience berbasis formulir kami dengan tekan [disini](https://docs.google.com/forms/d/e/1FAIpQLSdCxZXPANg_xHWil4kVAdhmh7EBBHQZ_4_xSZVDL-oCC_z5pA/viewform?usp=sf_link)
+- Apakah anda menyukai framework ini? Tweet sesuatu tentang ini! Orang - orang yang sudah berbicara:
 
 <a href="https://twitter.com/gelnior/status/769100480706379776"> 
     <img src="https://comments.iris-go.com/comment27_mini.png" width="350px">
@@ -147,20 +151,21 @@ _更新于: [2017年11月21日星期二](_benchmarks/README_UNIX.md)_
     <img src="https://comments.iris-go.com/comment41.png" width="350px">
 </a>
 
+<br/><br/>
 
-[如何贡献代码](CONTRIBUTING.md)
+Untuk informasi lebih lanjut mengenai kontribusi terhadap project Iris, mohon untuk mengecek file [CONTRIBUTING.md](CONTRIBUTING.md).
 
-[贡献者列表](https://github.com/kataras/iris/graphs/contributors)
+[Daftar seluruh Kontributor](https://github.com/kataras/iris/graphs/contributors)
 
-## 学习
+## Belajar
 
-首先，从 Web 框架开始的最正确的方法是学习 Golang 标准库 [net/http](https://golang.org/pkg/net/http/ "net/http") 的基础知识，如果您的 web 应用程序是一个非常简单的个人项目，没有性能和可维护性要求，您可能只需使用标准库即可。 之后，遵循以下指导原则：
+Pertama - tama, cara yang paling tepat untuk memulai dengan web framework adalah dengan mempelajari dasar dari bahasa pemrograman dan kemampuan dasar `http`, apabila aplikasi web anda adalah proyek pribadi yang sangat sederhana tanpa kebutuhan kinerja dan pemeliharaan, anda dapat melanjutkan hanya dengan standard packages. Setelah itu, ikut petunjuknya:
 
-- 浏览 **100+** **[例子](_examples)** 和 我们提供的 [一些入门经验](#iris-starter-kits)
-- 通过 [godocs](https://godoc.org/github.com/kataras/iris) 阅读细节
-- 准备一杯咖啡或茶，无论你喜欢什么，并阅读我们为你推荐的 [一些文章](#articles)
+- Kunjungi **100+1** **[contoh](_examples)** dan beberapa [iris starter kits](#iris-starter-kits) yang kami buat untuk anda
+- Baca [godocs](https://godoc.org/github.com/kataras/iris) untuk penjelasan yang lebih detail
+- Siapkan secangkir kopi atau teh, apapun yang paling menyenangkan anda, dan baca beberapa [artikel](#articles) yang kami temukan untuk anda
 
-### Iris 入门
+### Iris starter kits
 
 <!-- table form 
 | Description | Link |
@@ -184,16 +189,18 @@ _更新于: [2017年11月21日星期二](_benchmarks/README_UNIX.md)_
 7. [Quickstart for Iris with Nanobox](https://guides.nanobox.io/golang/iris/from-scratch)
 8. [A Hasura starter project with a ready to deploy Golang hello-world web app with IRIS](https://hasura.io/hub/project/hasura/hello-golang-iris)
 
-> 如果你有类似的使用经验吗 [请提交给我们](https://github.com/kataras/iris/pulls)!
+> Apakah anda membuat hal yang serupa? [Beritahu kami](https://github.com/kataras/iris/pulls)!
 
-### 中间件
+### Middleware
 
-Iris 拥有大量的中间件 [[1]](middleware/)[[2]](https://github.com/iris-contrib/middleware) 供您的 Web 应用程序使用。 不过，您并不局限于此，您可以自由使用与 [net/http](https://golang.org/pkg/net/http/) 包兼容的任何第三方中间件，相关示例 [_examples/convert-handlers](_examples/convert-handlers) 。
+Iris memiliki koleksi handler yang hebat[[1]](middleware/)[[2]](https://github.com/iris-contrib/middleware) yang dapat anda gunakan berdampingan dengan aplikasi web anda. Namun, anda tidak terbatas oleh itu saja - anda bebas menggunakan third-party middleware yang compatible dengan package [net/http](https://golang.org/pkg/net/http/), [_examples/convert-handlers](_examples/convert-handlers) akan menunjukkan caranya.
 
-### 相关文章（英文）
+Iris, tidak seperti yang lain, 100% compatible dengan standards dan maka dari itu mayoritas dari perusahaan besar yang mengadaptasi Go kepada alur kerja mereka, seperti Jaringan Telivisi yang sangat terkenal di US, mempercayai Iris; framework yang up-to-date dan ini akan selalu selaras dengan package std `net/http` yang dimodernisasi oleh Pencipta Go di setiap release dari Go Programming Language.
+
+### Articles
 
 * [A Todo MVC Application using Iris and Vue.js](https://hackernoon.com/a-todo-mvc-application-using-iris-and-vue-js-5019ff870064)
-* [A Hasura starter project with a ready to deploy Golang hello-world web app with IRIS](bit.ly/2lmKaAZ)
+* [A Hasura starter project with a ready to deploy Golang hello-world web app with IRIS](https://bit.ly/2lmKaAZ)
 * [Top 6 web frameworks for Go as of 2017](https://blog.usejournal.com/top-6-web-frameworks-for-go-as-of-2017-23270e059c4b)
 * [Iris Go Framework + MongoDB](https://medium.com/go-language/iris-go-framework-mongodb-552e349eab9c)
 * [How to build a file upload form using DropzoneJS and Go](https://hackernoon.com/how-to-build-a-file-upload-form-using-dropzonejs-and-go-8fb9f258a991)
@@ -205,22 +212,22 @@ Iris 拥有大量的中间件 [[1]](middleware/)[[2]](https://github.com/iris-co
 * [Deploying a Iris Golang app in hasura](https://medium.com/@HasuraHQ/deploy-an-iris-golang-app-with-backend-apis-in-minutes-25a559bf530b)
 * [A URL Shortener Service using Go, Iris and Bolt](https://medium.com/@kataras/a-url-shortener-service-using-go-iris-and-bolt-4182f0b00ae7)
 
-### 视频教程（英文） - Youtube
+### Video Courses
 
-* [Daily Coding - Web Framework Golang: Iris Framework]( https://www.youtube.com/watch?v=BmOLFQ29J3s) by WarnabiruTV
-* [Tutorial Golang MVC dengan Iris Framework & Mongo DB](https://www.youtube.com/watch?v=uXiNYhJqh2I&list=PLMrwI6jIZn-1tzskocnh1pptKhVmWdcbS) (19 parts so far) by Musobar Media
-* [Go/Golang 27 - Iris framework : Routage de base](https://www.youtube.com/watch?v=rQxRoN6ub78) by stephgdesign
-* [Go/Golang 28 - Iris framework : Templating](https://www.youtube.com/watch?v=nOKYV073S2Y) by stephgdesignn
-* [Go/Golang 29 - Iris framework : Paramètres](https://www.youtube.com/watch?v=K2FsprfXs1E) by stephgdesign
-* [Go/Golang 30 - Iris framework : Les middelwares](https://www.youtube.com/watch?v=BLPy1So6bhE) by stephgdesign
-* [Go/Golang 31 - Iris framework : Les sessions](https://www.youtube.com/watch?v=RnBwUrwgEZ8) by stephgdesign
+* [Daily Coding - Web Framework Golang: Iris Framework]( https://www.youtube.com/watch?v=BmOLFQ29J3s) by WarnabiruTV, sumber: youtube, biaya: **GRATIS**
+* [Tutorial Golang MVC dengan Iris Framework & Mongo DB](https://www.youtube.com/watch?v=uXiNYhJqh2I&list=PLMrwI6jIZn-1tzskocnh1pptKhVmWdcbS) (19 parts so far) by Musobar Media, sumber: youtube, biaya: **GRATIS**
+* [Go/Golang 27 - Iris framework : Routage de base](https://www.youtube.com/watch?v=rQxRoN6ub78) by stephgdesign, sumber: youtube, biaya: **GRATIS**
+* [Go/Golang 28 - Iris framework : Templating](https://www.youtube.com/watch?v=nOKYV073S2Y) by stephgdesignn, sumber: youtube, biaya: **GRATIS**
+* [Go/Golang 29 - Iris framework : Paramètres](https://www.youtube.com/watch?v=K2FsprfXs1E) by stephgdesign, sumber: youtube, biaya: **GRATIS**
+* [Go/Golang 30 - Iris framework : Les middelwares](https://www.youtube.com/watch?v=BLPy1So6bhE) by stephgdesign, sumber: youtube, biaya: **GRATIS**
+* [Go/Golang 31 - Iris framework : Les sessions](https://www.youtube.com/watch?v=RnBwUrwgEZ8) by stephgdesign, sumber: youtube, biaya: **GRATIS**
 
-### 工作机会
+### Get hired
 
-有很多公司都在寻找具有 Iris 经验的 Go 网站开发者，我们通过 [facebook page](https://www.facebook.com/iris.framework) 发布这些招聘信息。
+Ada beberapa perusahaan dan start-up yang mencari web developer Go yang memiliki pengalaman menggunakn Iris, kami mencarikan untuk anda setiap hari dan kami post informasi tersebut melalui [facebook page](https://www.facebook.com/iris.framework) kami, like page kami untuk mendapatkan notifikasi, kami sudah mempost beberapa dari mereka.
 
-## 授权协议
+## License
 
-Iris 授权基于 [3-Clause BSD License](LICENSE). Iris 是 100％ 免费和开源软件。
+Iris dilisensikan di bawah [3-Clause BSD License](LICENSE). Iris 100% gratis dan software open-source.
 
-有关授权的任何问题，[请发送电子邮件](mailto:kataras2006@hotmail.com?subject=Iris%20License)。
+Apabila ada pertanyaan mengenai lisensi, anda dapat mengirimkan [e-mail](mailto:kataras2006@hotmail.com?subject=Iris%20License).
